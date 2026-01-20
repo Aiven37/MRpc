@@ -1,0 +1,1 @@
+protoc --proto_path=message --go_out=message --go-grpc_out=message --go_opt=paths=source_relative --go-grpc_opt=paths=source_relative message/v1/*.proto

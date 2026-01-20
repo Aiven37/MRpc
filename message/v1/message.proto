@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+//指定包名
+option go_package = "github.com/Aiven37/MRpc/message/v1;v1";
+package message;
+
+message MRpcMessage {
+  string sessionId = 1;
+  int32 msgId = 2;
+  bytes data = 3;
+}
+
+message MRpcMessageAck {
+  string sessionId = 1;
+  int32 ackMsgId = 2;
+  bytes ackData = 3;
+}
+
+service MRpcService {
+  rpc Request(MRpcMessage) returns (MRpcMessageAck) {}
+  rpc RequestMultResp(MRpcMessage) returns (stream MRpcMessageAck) {}
+  rpc MultRequest(stream MRpcMessage) returns (MRpcMessageAck) {}
+  rpc DuplexStream(stream MRpcMessage) returns (stream MRpcMessageAck) {}
+}
