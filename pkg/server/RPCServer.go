@@ -187,3 +187,7 @@ func (s *MRpcServer) DuplexStream(stream grpc.BidiStreamingServer[pb.MRpcMessage
 		return errors.New("msgHandler is nil")
 	}
 }
+
+func (s *MRpcServer) OpenLogOut(dir string) {
+	util.InitLogger(dir)
+}

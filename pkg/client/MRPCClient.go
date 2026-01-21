@@ -133,3 +133,7 @@ func (h *MRpcClient) DuplexStream(cfg model.ServerConfig, callBack model.MultRes
 		return conn.DuplexStream(callBack, conn.Config.MMultiStreamTimeOut)
 	}
 }
+
+func (h *MRpcClient) OpenLogOut(dir string) {
+	util.InitLogger(dir)
+}

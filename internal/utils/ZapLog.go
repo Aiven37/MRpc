@@ -13,17 +13,21 @@ import (
 
 var atomicLogger atomic.Value // 保存 *zap.Logger
 
+var isInited = false
+
 // InitCustomLogger 初始化一个定制的 Logger
-func initCustomLogger() {
+func initCustomLogger(dir string) bool {
+	if isInited {
+		return false
+	}
 	fmt.Printf("Logger Init\n")
-	dir := "output/log/"
 	// result := fileutils.DeleteChildFiles(dir)
 	// fmt.Printf("清空日志目录结果:%t\n", result)
 	err := os.MkdirAll(dir, os.ModePerm)
 	if err != nil {
 		panic("Logger System Error")
 	}
-
+	isInited = true
 	currentDate := time.Now().Format("2006-01-02")
 	// 日志文件路径
 	debugLogFile := fmt.Sprintf("%sdebug_%s.log", dir, currentDate)
@@ -79,21 +83,25 @@ func initCustomLogger() {
 	// zap.AddCallerSkip(1) 会跳过调用函数的文件名和行号
 	logger := zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
 	atomicLogger.Store(logger) //这么做主要是原子存储，方式，在每天0成切换日志文件的时候，重新执行initCustomLogger 方法过程中，logger重新构建问题
+	return true
 }
 
 // InitLogger 初始化日志器（目前为空）
-func InitLogger() {
+func InitLogger(dir string) {
 	// 每天 0 点刷新日志
-	initCustomLogger()
-	go func() {
-		for {
-			now := time.Now()
-			// 计算下一个 0 点
-			next := now.Add(24 * time.Hour).Truncate(24 * time.Hour)
-			time.Sleep(time.Until(next))
-			initCustomLogger()
-		}
-	}()
+	result := initCustomLogger(dir)
+	if result {
+		go func(dir string) {
+			for {
+				now := time.Now()
+				// 计算下一个 0 点
+				isInited = false
+				next := now.Add(24 * time.Hour).Truncate(24 * time.Hour)
+				time.Sleep(time.Until(next))
+				initCustomLogger(dir)
+			}
+		}(dir)
+	}
 }
 
 // LDebug 输出日志

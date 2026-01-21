@@ -15,7 +15,6 @@ import (
 var client mm_rpc_client.MRpcClient
 
 func main() {
-	util.InitLogger()
 	var wg sync.WaitGroup
 	wg.Add(1)
 	go func() {
@@ -29,6 +28,7 @@ func main() {
 func doTest() {
 	server := mm_rpc_sever.MRpcServer{}
 	shandle := wtest.ServerHandle{}
+	server.OpenLogOut("output/log/")
 	err := server.StartServer(8787, &shandle)
 	if err != nil {
 		util.LError(err.Error())
@@ -42,6 +42,7 @@ func doTest() {
 
 	time.Sleep(1 * time.Second)
 	client = mm_rpc_client.MRpcClient{}
+	client.OpenLogOut("output/log/")
 
 	err = client.AddConnect(&defaultConfig)
 	if err != nil {
