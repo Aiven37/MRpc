@@ -36,7 +36,7 @@ func doTest() {
 	}
 
 	defaultConfig := mm_rpc_model.ServerConfig{
-		IP:   "0.0.0.0",
+		IP:   "127.0.0.1",
 		Port: 8787,
 	}
 
