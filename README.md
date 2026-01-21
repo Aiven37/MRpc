@@ -7,7 +7,7 @@
 
 ## 包引入,当前版本 v1.0.0
 ```
-go get github.com/Aiven37/MRpc@rcp-V1.0.0
+go get github.com/Aiven37/MRpc@rcp-V1.0.1
 ```
 
 
