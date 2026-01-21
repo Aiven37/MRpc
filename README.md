@@ -7,7 +7,7 @@
 
 ## 包引入,当前版本 v1.0.0
 ```
-go get github.com/Aiven37/MRpc@v1.0.0
+go get github.com/Aiven37/MRpc@rcp-V1.0.0
 ```
 
 
@@ -25,9 +25,9 @@ if err != nil {
 }
 ```
 说明：
-先示例话MRpcServer 对象，然后创建一个服务器消息接收器，这个接收器必须实现接口方法。然后传入端口启动服务。
-需要实现的接口包括：
-- Unary RPC （一元通信:最常见，像 HTTP 请求）:
+    先示例话MRpcServer 对象，然后创建一个服务器消息接收器，这个接收器必须实现接口方法。然后传入端口启动服务。
+    需要实现的接口包括：
+- Unary RPC （一元通信:最常见，像 HTTP 请求）: 
 ```go
 HandleRequest(sessionId string, msgId int32, data []byte) (int32, []byte, error)`
 ```
@@ -47,11 +47,11 @@ HandleRequest(sessionId string, msgId int32, data []byte) (int32, []byte, error)
 
 
 ## 创建客户端
-*step1*： 创建客户端实例
+ *step1*： 创建客户端实例
  ```go
     client = mm_rpc_client.MRpcClient{}
 ``` 
-*step2*： 添加服务器配置
+ *step2*： 添加服务器配置
 ```go
     //指定服务器IP及端口
 defaultConfig := mm_rpc_model.ServerConfig{
@@ -63,7 +63,7 @@ client.AddConnect(&defaultConfig)
 
 //client.AddConnect(&defaultConfig) 可以同时添加多个服务器连接
 ```
-*step3*： 连接服务器，会将所有服务器配置的都启动
+ *step3*： 连接服务器，会将所有服务器配置的都启动
 ```go
   err = client.ConnectServer()
 ```
